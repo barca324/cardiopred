@@ -3,7 +3,8 @@ import joblib
 import pandas as pd
 
 app = Flask(__name__, template_folder="../templates")
-model = joblib.load("model.pkl")
+model = joblib.load("src/model.pkl")
+
 
 @app.route('/')
 def home():
@@ -12,9 +13,9 @@ def home():
 @app.route('/predict', methods=['POST'])
 def predict():
     data = request.form
-    yob = int(data["age"])  # Year of birth
-    # Calculate age in years
-    age_in_days = yob * 365  # Convert age to days (approximation)
+    yob = int(data["age"]) 
+   
+    age_in_days = yob * 365 
 
     input_data = pd.DataFrame([{
         "age": age_in_days,
@@ -36,4 +37,5 @@ def predict():
     return render_template("index.html", result=result)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=8000, debug=True)
+
